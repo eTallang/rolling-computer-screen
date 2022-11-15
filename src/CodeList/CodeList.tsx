@@ -4,13 +4,11 @@ import css from "./CodeList.module.scss";
 
 interface Props {
   numberOfRows: number;
-  speed: number;
 }
 
 let codeLineId = 0;
 
-export const CodeList: React.FC<Props> = ({ numberOfRows, speed }) => {
-  const [distance, setDistance] = useState(1);
+export const CodeList: React.FC<Props> = ({ numberOfRows }) => {
   const [timeoutId, setTimeoutId] = useState<number>();
   const listRef = useRef<HTMLDivElement>(null);
   const [code, setCode] = useState<number[]>([]);
@@ -42,14 +40,10 @@ export const CodeList: React.FC<Props> = ({ numberOfRows, speed }) => {
         window.clearInterval(timeoutId);
       }
 
-      const id = setInterval(() => listEl.scrollBy({ top: distance }), 40);
+      const id = setInterval(() => listEl.scrollBy({ top: 1 }), 40);
       setTimeoutId(id);
     }
   }, [listRef, listRef?.current]);
-
-  useEffect(() => {
-    setDistance(speed * 0.2);
-  }, [speed]);
 
   return (
     <div ref={listRef} className={css["code-list"]} onScroll={onScroll}>
