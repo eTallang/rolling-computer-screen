@@ -6,7 +6,7 @@ export const useProbability = (probability: number): boolean => {
 
   useEffect(() => {
     if (isHit) {
-      setTimeout(() => setIsHit(false), Math.random() * 600 + 100);
+      setTimeout(() => setIsHit(false), Math.random() * 1000 + 50);
     }
   }, [isHit]);
 
