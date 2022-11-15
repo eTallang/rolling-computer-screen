@@ -40,7 +40,7 @@ export const CodeList: React.FC<Props> = ({ numberOfRows }) => {
         window.clearInterval(timeoutId);
       }
 
-      const id = setInterval(() => listEl.scrollBy({ top: 1 }), 40);
+      const id = setInterval(() => listEl.scrollBy({ top: 1, behavior: 'auto' }), 40);
       setTimeoutId(id);
     }
   }, [listRef, listRef?.current]);

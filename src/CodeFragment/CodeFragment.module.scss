@@ -1,8 +1,4 @@
-.line-container {
-  display: flex;
-}
-
-.stripe {
+.code-fragment {
   border-radius: 99px;
   height: 1vmin;
   background-color: #579f8e;
@@ -13,7 +9,8 @@
   &:hover {
     transform: scale(1.4);
   }
-}
 
-.gap {
+  &.active {
+    transform: scale(1.1);
+  }
 }

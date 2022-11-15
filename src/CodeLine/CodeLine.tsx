@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { CodeFragment } from "../CodeFragment/CodeFragment";
 import css from "./CodeLine.module.scss";
 
 export const CodeLine: React.FC = () => {
@@ -18,13 +19,13 @@ export const CodeLine: React.FC = () => {
 
   return (
     <div className={css["line-container"]}>
-      {lineParts.map((part, index) => (
-        <div
-          key={index}
-          className={index % 2 === 0 ? css["gap"] : css["stripe"]}
-          style={{ flex: part }}
-        ></div>
-      ))}
+      {lineParts.map((part, index) =>
+        index % 2 === 0 ? (
+          <div key={index} style={{ flex: part }} />
+        ) : (
+          <CodeFragment key={index} flex={part} />
+        )
+      )}
     </div>
   );
 };
