@@ -1,0 +1,14 @@
+.slider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222222;
+  width: 100%;
+  max-width: 200px;
+  gap: 8px;
+  margin: 0 auto 32px;
+
+  input {
+    width: 100%;
+  }
+}

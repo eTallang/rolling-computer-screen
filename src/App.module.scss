@@ -1,0 +1,13 @@
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.title {
+  font-family: "Rubik Mono One", sans-serif;
+  letter-spacing: 3vw;
+  font-size: 1.6rem;
+  color: #5b9590;
+  margin: 0 auto 3rem;
+}
