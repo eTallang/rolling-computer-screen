@@ -24,7 +24,7 @@ export const CodeLine: React.FC<Props> = ({
 
     const list = new Array(noOfItems).fill(1).map((_, index) => {
       if (index === 0 || index === noOfItems - 1) {
-        return 1 + Math.random() * 4;
+        return 0.2 + Math.random() * 10;
       }
       return 1 + Math.random() * (index % 2 === 0 ? 1 : 8);
     });
