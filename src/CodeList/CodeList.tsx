@@ -1,53 +1,54 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CodeLine } from "../CodeLine/CodeLine";
 import css from "./CodeList.module.scss";
 
 interface Props {
   numberOfRows: number;
+  lineHeight: number;
 }
 
 let codeLineId = 0;
 
-export const CodeList: React.FC<Props> = ({ numberOfRows }) => {
-  const [timeoutId, setTimeoutId] = useState<number>();
-  const listRef = useRef<HTMLDivElement>(null);
+export const CodeList: React.FC<Props> = ({ numberOfRows, lineHeight }) => {
+  const [numberOfItemsCreated, setNumberOfItemsCreated] = useState(1);
   const [code, setCode] = useState<number[]>([]);
 
-  const hasReachedScrollBottom = (el: HTMLDivElement): boolean => {
-    return el.scrollHeight - (el.scrollTop + el.clientHeight) < 80;
-  };
+  const addLineOfCode = (deleteFirst = false) => {
+    setCode((codes) => {
+      const copy = codes.slice();
 
-  const onScroll = (): void => {
-    if (listRef.current && hasReachedScrollBottom(listRef.current)) {
-      const codeListCopy = code.slice();
-      codeListCopy.splice(0, 1);
-      codeListCopy.push(...new Array(1).fill(0).map(() => codeLineId++));
-      setCode(codeListCopy);
-    }
-  };
-
-  useEffect(() => {
-    const list = new Array(numberOfRows).fill(0).map(() => codeLineId++);
-    setCode([...list]);
-  }, [numberOfRows]);
-
-  useEffect(() => {
-    const listEl = listRef.current;
-
-    if (listEl) {
-      if (timeoutId) {
-        listEl.scrollTo({ top: 0 });
-        window.clearInterval(timeoutId);
+      if (deleteFirst) {
+        copy.splice(0, 1);
       }
+      copy.push(codeLineId++);
 
-      const id = setInterval(() => listEl.scrollBy({ top: 1, behavior: 'auto' }), 40);
-      setTimeoutId(id);
+      return copy;
+    });
+  };
+
+  const addInitialCode = (): void => {
+    if (numberOfItemsCreated < numberOfRows) {
+      addLineOfCode();
+      setNumberOfItemsCreated(() => numberOfItemsCreated + 1);
     }
-  }, [listRef, listRef?.current]);
+  };
+
+  useEffect(() => {
+    if (code.length === 0) {
+      addLineOfCode();
+    }
+  }, []);
 
   return (
-    <div ref={listRef} className={css["code-list"]} onScroll={onScroll}>
-      {code.map((id) => <CodeLine key={id} />)}
+    <div className={css["code-list"]}>
+      {code.map((id) => (
+        <CodeLine
+          key={id}
+          onVisible={addInitialCode}
+          onHidden={() => addLineOfCode(true)}
+          lineHeight={lineHeight}
+        />
+      ))}
     </div>
   );
 };

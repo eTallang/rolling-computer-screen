@@ -1,5 +1,21 @@
+@keyframes slide {
+  from {
+    top: 100%;
+  }
+
+  to {
+    top: -60px;
+  }
+}
+
 .line-container {
   display: flex;
+  align-items: center;
+  animation: slide var(--speed) linear forwards;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
 }
 
 .stripe {
@@ -13,7 +29,4 @@
   &:hover {
     transform: scale(1.4);
   }
-}
-
-.gap {
 }
