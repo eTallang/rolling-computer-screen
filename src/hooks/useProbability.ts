@@ -23,6 +23,7 @@ export const useProbability = (probability: number): boolean => {
           ratio - probability / (100 / ratio) + probability &&
         !isHit
       ) {
+        failedChances = 0;
         setIsHit(true);
       } else {
         failedChances++;
