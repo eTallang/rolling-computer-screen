@@ -5,10 +5,16 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgb(255 255 255 / 0.3);
+  background-color: rgb(255 255 255 / 0.2);
   mix-blend-mode: overlay;
   border-radius: calc(var(--border-radius) / 2);
-  box-shadow: 0 0 200px 200px rgb(255 255 255 / 0.4);
+  box-shadow: 0 0 200px 200px rgb(255 255 255 / 0.3);
   overflow: hidden;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 20ms;
+
+  &.on {
+    opacity: 1;
+  }
 }
