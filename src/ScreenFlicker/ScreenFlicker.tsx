@@ -4,7 +4,7 @@ import { useProbability } from "../hooks/useProbability";
 import css from "./ScreenFlicker.module.scss";
 
 export const ScreenFlicker: React.FC = () => {
-  const isShowing = useProbability(10);
+  const isShowing = useProbability(50);
 
   return <div className={`${css["flicker"]} ${isShowing ? css["on"] : ""}`} />;
 };

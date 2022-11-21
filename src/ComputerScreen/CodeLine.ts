@@ -5,19 +5,20 @@ interface CodeFragment {
 
 export class CodeLine {
   private lineParts: CodeFragment[] = [];
-  private dy = 2;
+  private dy = 1.6;
 
   constructor(
     private context: CanvasRenderingContext2D,
     private y: number,
     private lineHeight: number,
-    private containerWidth: number
+    private containerWidth: number,
+    private brokenScreen: boolean
   ) {
     this.lineParts = this.createLineParts();
   }
 
   createLineParts = (): CodeFragment[] => {
-    let noOfItems = 6 + Math.round(Math.random() * 3);
+    let noOfItems = 4 + Math.round(Math.random() * 5);
     if (noOfItems % 2 === 0) {
       noOfItems++;
     }
@@ -26,7 +27,7 @@ export class CodeLine {
       if (index === 0 || index === noOfItems - 1) {
         return 0.2 + Math.random() * 10;
       }
-      return 1 + Math.random() * (index % 2 === 0 ? 1 : 6);
+      return 1 + Math.random() * (index % 2 === 0 ? 1 : 4);
     });
 
     const totalWeight = weightedList.reduce((prev, curr) => prev + curr);
@@ -62,7 +63,14 @@ export class CodeLine {
       this.context.moveTo(part.left, this.y);
       this.context.lineTo(part.left + part.width, this.y);
       this.context.closePath();
-      this.context.strokeStyle = index % 2 === 0 ? "transparent" : "#579f8e";
+
+      if (this.brokenScreen) {
+        this.context.strokeStyle =
+          index % 2 === 0 ? "transparent" : "rgb(175, 234, 220)";
+      } else {
+        this.context.strokeStyle = index % 2 === 0 ? "transparent" : "#579f8e";
+      }
+
       this.context.shadowColor = "rgb(140 241 218 / 0.2)";
       this.context.shadowBlur = 10;
       this.context.stroke();

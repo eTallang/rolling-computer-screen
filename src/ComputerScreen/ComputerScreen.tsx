@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { CodeLine } from "./CodeLine";
 import css from "./ComputerScreen.module.scss";
 
+const BROKEN_MODE = false;
+
 let lastTimeStamp = 0;
 const fps = 30;
 const lineHeight = 10;
@@ -23,9 +25,10 @@ export const ComputerScreen: React.FC = () => {
   const createCodeLine = (context: CanvasRenderingContext2D): CodeLine => {
     return new CodeLine(
       context,
-      screenDimensions.height + (lineHeight + padding) * 1,
+      screenDimensions.height + (lineHeight + padding) * 1.4,
       lineHeight,
-      screenDimensions.width
+      screenDimensions.width,
+      BROKEN_MODE
     );
   };
 
@@ -38,7 +41,12 @@ export const ComputerScreen: React.FC = () => {
 
     if (timestamp && timestamp - lastTimeStamp > 1000 / fps) {
       lastTimeStamp = timestamp;
-      ctx?.clearRect(0, 0, screenDimensions.width, screenDimensions.width);
+      if (BROKEN_MODE) {
+        ctx.fillStyle = "rgb(0 0 0 / 0.2)";
+        ctx.fillRect(0, 0, screenDimensions.width, screenDimensions.width);
+      } else {
+        ctx.clearRect(0, 0, screenDimensions.width, screenDimensions.width);
+      }
       if (lines[0].isOutOfBounds()) {
         lines.splice(0, 1);
         lines.push(createCodeLine(ctx));
@@ -58,18 +66,30 @@ export const ComputerScreen: React.FC = () => {
             ctx,
             (index + 1) * (lineHeight + padding),
             lineHeight,
-            screenDimensions.width
+            screenDimensions.width,
+            BROKEN_MODE
           )
       );
   };
 
-  useEffect(() => {
-    if (screenRef.current) {
+  const observeResizing = (el: HTMLElement | null): ResizeObserver => {
+    const observer = new ResizeObserver((ev) => {
       setScreenDimensions({
-        width: screenRef.current.clientWidth - 32,
-        height: screenRef.current.clientHeight,
+        width: ev[0].contentRect.width - 32,
+        height: ev[0].contentRect.height,
       });
+    });
+
+    if (el) {
+      observer.observe(el);
     }
+
+    return observer;
+  };
+
+  useEffect(() => {
+    const observer = observeResizing(screenRef.current);
+    return () => observer && observer.disconnect();
   }, [screenRef?.current]);
 
   useEffect(() => {
@@ -86,6 +106,7 @@ export const ComputerScreen: React.FC = () => {
         ref={canvasRef}
         width={screenDimensions.width}
         height={screenDimensions.height}
+        className={`${BROKEN_MODE ? css["broken-screen"] : ""}`}
       />
     </div>
   );
