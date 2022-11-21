@@ -4,8 +4,9 @@ import css from "./ComputerScreen.module.scss";
 
 let lastTimeStamp = 0;
 const fps = 30;
-const lineHeight = 14;
-const padding = 20;
+const lineHeight = 12;
+const padding = 30;
+
 interface ScreenDimensions {
   width: number;
   height: number;
