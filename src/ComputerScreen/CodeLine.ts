@@ -5,7 +5,7 @@ interface CodeFragment {
 
 export class CodeLine {
   private lineParts: CodeFragment[] = [];
-  private dy = 1;
+  private dy = 2;
 
   constructor(
     private context: CanvasRenderingContext2D,
@@ -26,7 +26,7 @@ export class CodeLine {
       if (index === 0 || index === noOfItems - 1) {
         return 0.2 + Math.random() * 10;
       }
-      return 1 + Math.random() * (index % 2 === 0 ? 1 : 8);
+      return 1 + Math.random() * (index % 2 === 0 ? 1 : 6);
     });
 
     const totalWeight = weightedList.reduce((prev, curr) => prev + curr);

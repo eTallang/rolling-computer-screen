@@ -4,7 +4,7 @@ import css from "./ComputerScreen.module.scss";
 
 let lastTimeStamp = 0;
 const fps = 30;
-const lineHeight = 12;
+const lineHeight = 10;
 const padding = 30;
 
 interface ScreenDimensions {
@@ -23,7 +23,7 @@ export const ComputerScreen: React.FC = () => {
   const createCodeLine = (context: CanvasRenderingContext2D): CodeLine => {
     return new CodeLine(
       context,
-      screenDimensions.height + lineHeight * 2.6,
+      screenDimensions.height + (lineHeight + padding) * 1,
       lineHeight,
       screenDimensions.width
     );
